@@ -24,7 +24,7 @@ df = df.drop(['PassengerId','Ticket','Name', 'Cabin', 'Embarked', 'Fare'],1)
 df = df.dropna()
 
 # One-hot encoding
-df = pd.get_dummies(df,columns=['Sex','Pclass'])
+df = pd.get_dummies(df,columns=['Sex','Pclass','Survived'])
 
 ## 2)
 # convertimos a matrix de numpy.
@@ -47,7 +47,7 @@ points  = myPCA.getCorrelationCirclePoints(V, sw)
 # Plot
 import matplotlib as plt
 import numpy as np
-plt.pyplot.scatter(np.ravel(C[:,0]),np.ravel(C[:,1]),c = ['b' if i==1 else 'r' for i in df['Survived']])
+plt.pyplot.scatter(np.ravel(C[:,0]),np.ravel(C[:,1]),c = ['b' if i==1 else 'r' for i in df['Survived_0']])
 plt.pyplot.xlabel('PCA 1 (%.2f%% inertia)' % (inertia[0],))
 plt.pyplot.ylabel('PCA 2 (%.2f%% inertia)' % (inertia[0],))
 plt.pyplot.title('PCA')
@@ -69,10 +69,11 @@ plt.pyplot.title('Correlation Circle')
 plt.pyplot.show()
 
 ## 5)
-# En el Scatterplot podemos observar 4 grupos, 2 de supervivientes y 2 de fallecidos pero se encuentran
-# intercalados y entre cada par de grupos se podría decir que son casi linealmente divisibles por lo
+# En el Scatterplot podemos observar 3 grupos, 2 supervivientes y fallecidos claramente separados
+# y entre ellos uno ligeramente mezclado pero casi linealmente divisible
 # que podemos decir que sí hay ciertos (varios, por eso la intercalación de grupos) atributos con una 
-# relación directa sobre la probabilidad de sobrevivir al hundimiento, en vez de ser simple aleatoriedad.
+# relación directa sobre la probabilidad de sobrevivir al hundimiento, en vez de ser simple aleatoriedad
+# pero sin perder de vista el pequenno margen de error en el grupo mezclado.
 
 # Al observar el círculo de correlación podemos notar que la flecha más cercana a la de supervivencia
 # corresponde a la de sexo femenino, esto porque se daba prioridad a las mujeres para ingresar a los botes
@@ -91,7 +92,7 @@ df = pd.read_csv("titanic.csv")
 #df = df.drop(['PassengerId','Age','Ticket','Name', 'Cabin', 'Embarked'],1)
 df = df.drop(['PassengerId','Ticket','Name', 'Cabin', 'Embarked', 'Fare'],1)
 df = df.dropna()
-df = pd.get_dummies(df,columns=['Sex','Pclass'])
+df = pd.get_dummies(df,columns=['Sex','Pclass','Survived'])
 
 # Scaling.
 from sklearn.preprocessing import StandardScaler
@@ -111,7 +112,7 @@ V = pca.transform(np.identity(df_scaled.shape[1]))
 
 # Plot
 import matplotlib as plt
-plt.pyplot.scatter(np.ravel(C[:,0]),np.ravel(C[:,1]),c = ['b' if i==1 else 'r' for i in df['Survived']])
+plt.pyplot.scatter(np.ravel(C[:,0]),np.ravel(C[:,1]),c = ['b' if i==1 else 'r' for i in df['Survived_0']])
 plt.pyplot.xlabel('PCA 1 (%.2f%% inertia)' % (inertia[0],))
 plt.pyplot.ylabel('PCA 2 (%.2f%% inertia)' % (inertia[0],))
 plt.pyplot.title('PCA')
